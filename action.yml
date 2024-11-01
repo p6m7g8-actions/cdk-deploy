@@ -1,0 +1,67 @@
+name: "Deploy Composite Action"
+description: "Composite action to deploy using Node.js, pnpm, AWS OIDC role, and CDK"
+inputs:
+  aws_region:
+    description: "AWS region for deployment"
+    required: false
+    default: "us-east-1"
+  aws_role:
+    description: "AWS role to assume"
+    required: true
+  aws_session_name:
+    description: "Session name for the AWS role"
+    required: true
+  cdk_deploy_account:
+    description: "AWS CDK deploy account"
+    required: true
+  cdk_deploy_region:
+    description: "AWS CDK deploy region"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code
+      uses: actions/checkout@v4.2.2
+    - name: Install Node.js
+      shell: bash
+      run: |
+        curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz -o node-v22.11.0-linux-x64.tar.xz
+        sudo tar -xJf node-v22.11.0-linux-x64.tar.xz -C /usr/local
+        echo "/usr/local/node-v22.11.0-linux-x64/bin" >> $GITHUB_PATH
+    - name: Corepack
+      shell: bash
+      run: |
+        sudo corepack enable
+        sudo corepack prepare pnpm@latest --activate
+    - name: Restore NPM node_modules cache
+      uses: actions/cache/restore@v4.1.2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-node_modules-
+    - name: Install pnpm and dependencies
+      shell: bash
+      run: pnpm install
+    - name: Cache NPM dependencies
+      uses: actions/cache@v4.1.2
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-node_modules-
+    - name: Assume role using OIDC
+      uses: aws-actions/configure-aws-credentials@v4.0.2
+      with:
+        aws-region: ${{ inputs.aws_region }}
+        role-to-assume: ${{ inputs.aws_role }}
+        role-session-name: ${{ inputs.aws_session_name }}
+    - name: Run deploy
+      shell: bash
+      env:
+        CDK_DEPLOY_ACCOUNT: ${{ inputs.cdk_deploy_account }}
+        CDK_DEPLOY_REGION: ${{ inputs.cdk_deploy_region }}
+        CDK_DEFAULT_ACCOUNT: ${{ inputs.cdk_deploy_account }}
+        CDK_DEFAULT_REGION: ${{ inputs.cdk_deploy_region }}
+        AWS_REGION: ${{ inputs.aws_region }}
+      run: pnpm run deploy --all --require-approval never
