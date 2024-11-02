@@ -1,5 +1,6 @@
-name: "Deploy Composite Action"
-description: "Composite action to deploy using Node.js, pnpm, AWS OIDC role, and CDK"
+name: "P6 GHA: Deploys a CDK Application to AWS"
+description: "P6 GHA: Deploys a CDK Application to AWS"
+author: "Philip M. Gollucci"
 inputs:
   aws_region:
     description: "AWS region for deployment"
