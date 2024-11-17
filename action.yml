@@ -76,6 +76,9 @@ runs:
         aws-region: ${{ inputs.aws_region }}
         role-to-assume: ${{ inputs.aws_role }}
         role-session-name: ${{ inputs.aws_session_name }}
+    - name: Make ~/.aws
+      shell: bash
+      run: mkdir -p ~/.aws
     - name: Run deploy
       shell: bash
       env:
