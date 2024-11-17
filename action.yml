@@ -18,11 +18,30 @@ inputs:
   cdk_deploy_region:
     description: "AWS CDK deploy region"
     required: true
+  p6_custom_build_cmd:
+    description: "Custom build command to run"
+    required: false
+    default: "pnpm run deploy --all --require-approval never"
 runs:
   using: "composite"
   steps:
     - name: Checkout code
       uses: actions/checkout@v4.2.2
+    - name: Checkout code p6common
+      uses: actions/checkout@v4.2.2
+      with:
+        repository: "p6m7g8-dotfiles/p6common"
+        path: ".deps/p6common"
+    - name: Checkout code p6aws
+      uses: actions/checkout@v4.2.2
+      with:
+        repository: "p6m7g8-dotfiles/p6aws"
+        path: ".deps/p6aws"
+    - name: Debug
+      shell: bash
+      run: |
+        pwd
+        ls -alF
     - name: Install Node.js
       shell: bash
       run: |
@@ -65,4 +84,4 @@ runs:
         CDK_DEFAULT_ACCOUNT: ${{ inputs.cdk_deploy_account }}
         CDK_DEFAULT_REGION: ${{ inputs.cdk_deploy_region }}
         AWS_REGION: ${{ inputs.aws_region }}
-      run: pnpm run deploy --all --require-approval never
+      run: ${{ inputs.p6_custom_build_cmd }}
