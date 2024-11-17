@@ -87,4 +87,5 @@ runs:
         CDK_DEFAULT_ACCOUNT: ${{ inputs.cdk_deploy_account }}
         CDK_DEFAULT_REGION: ${{ inputs.cdk_deploy_region }}
         AWS_REGION: ${{ inputs.aws_region }}
+        P6_DFZ_SRC_P6M7G8_DOTFILES_DIR: ".deps"
       run: ${{ inputs.p6_custom_build_cmd }}
