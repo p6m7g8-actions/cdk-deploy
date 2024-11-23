@@ -37,6 +37,16 @@ runs:
       with:
         repository: "p6m7g8-dotfiles/p6aws"
         path: ".deps/p6aws"
+    - name: Checkout code p6awscdk
+      uses: actions/checkout@v4.2.2
+      with:
+        repository: "p6m7g8-dotfiles/p6awscdk"
+        path: ".deps/p6awscdk"
+    - name: Checkout code p6-cirrus
+      uses: actions/checkout@v4.2.2
+      with:
+        repository: "p6m7g8/p6-cirrus"
+        path: ".deps/p6-cirrus"
     - name: Debug
       shell: bash
       run: |
