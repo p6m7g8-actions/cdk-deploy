@@ -47,39 +47,8 @@ runs:
       with:
         repository: "p6m7g8/p6-cirrus"
         path: ".deps/p6-cirrus"
-    - name: Debug
-      shell: bash
-      run: |
-        pwd
-        ls -alF
-    - name: Install Node.js
-      shell: bash
-      run: |
-        curl -fsSL https://nodejs.org/dist/v22.11.0/node-v22.11.0-linux-x64.tar.xz -o node-v22.11.0-linux-x64.tar.xz
-        sudo tar -xJf node-v22.11.0-linux-x64.tar.xz -C /usr/local
-        echo "/usr/local/node-v22.11.0-linux-x64/bin" >> $GITHUB_PATH
-    - name: Corepack
-      shell: bash
-      run: |
-        sudo corepack enable
-        sudo corepack prepare pnpm@latest --activate
-    # - name: Restore NPM node_modules cache
-    #   uses: actions/cache/restore@v4.1.2
-    #   with:
-    #     path: node_modules
-    #     key: ${{ runner.os }}-pnpm-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-pnpm-node_modules-
-    - name: Install pnpm and dependencies
-      shell: bash
-      run: pnpm install
-    # - name: Cache NPM dependencies
-    #   uses: actions/cache@v4.1.2
-    #   with:
-    #     path: node_modules
-    #     key: ${{ runner.os }}-pnpm-node_modules-${{ hashFiles('pnpm-lock.yaml') }}
-    #     restore-keys: |
-    #       ${{ runner.os }}-pnpm-node_modules-
+    - name: Node
+      uses: p6m7g8-actions/node-setup@main
     - name: Assume role using OIDC
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
