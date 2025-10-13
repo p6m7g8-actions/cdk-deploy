@@ -26,31 +26,31 @@ runs:
   using: "composite"
   steps:
     - name: Checkout code
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v5.0.0
     - name: Checkout code p6common
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v5.0.0
       with:
         repository: "p6m7g8-dotfiles/p6common"
         path: ".deps/p6common"
     - name: Checkout code p6aws
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v5.0.0
       with:
         repository: "p6m7g8-dotfiles/p6aws"
         path: ".deps/p6aws"
     - name: Checkout code p6awscdk
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v5.0.0
       with:
         repository: "p6m7g8-dotfiles/p6awscdk"
         path: ".deps/p6awscdk"
     - name: Checkout code p6-cirrus
-      uses: actions/checkout@v4.2.2
+      uses: actions/checkout@v5.0.0
       with:
         repository: "p6m7g8/p6-cirrus"
         path: ".deps/p6-cirrus"
     - name: Node
       uses: p6m7g8-actions/node-setup@main
     - name: Assume role using OIDC
-      uses: aws-actions/configure-aws-credentials@v4.1.0
+      uses: aws-actions/configure-aws-credentials@v5.1.0
       with:
         aws-region: ${{ inputs.aws_region }}
         role-to-assume: ${{ inputs.aws_role }}
