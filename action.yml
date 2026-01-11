@@ -26,24 +26,24 @@ runs:
   using: "composite"
   steps:
     - name: Checkout code
-      uses: actions/checkout@v5.0.0
+      uses: p6m7g8-actions/checkout@main
     - name: Checkout code p6common
-      uses: actions/checkout@v5.0.0
+      uses: p6m7g8-actions/checkout@main
       with:
         repository: "p6m7g8-dotfiles/p6common"
         path: ".deps/p6common"
     - name: Checkout code p6aws
-      uses: actions/checkout@v5.0.0
+      uses: p6m7g8-actions/checkout@main
       with:
         repository: "p6m7g8-dotfiles/p6aws"
         path: ".deps/p6aws"
     - name: Checkout code p6awscdk
-      uses: actions/checkout@v5.0.0
+      uses: p6m7g8-actions/checkout@main
       with:
         repository: "p6m7g8-dotfiles/p6awscdk"
         path: ".deps/p6awscdk"
     - name: Checkout code p6-cirrus
-      uses: actions/checkout@v5.0.0
+      uses: p6m7g8-actions/checkout@main
       with:
         repository: "p6m7g8/p6-cirrus"
         path: ".deps/p6-cirrus"
